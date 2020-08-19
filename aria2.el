@@ -578,7 +578,7 @@ Returns a pair of numbers denoting amount of files deleted and files inserted."
                      (not (eq aria2--current-buffer-refresh-speed :normal)))
                     (retimer aria2-refresh-normal :normal))
                 ((not (eq aria2--current-buffer-refresh-speed :slow)) ; list is in the background
-                    (retimer aria2-refresh-slow :slow)))))))
+                    (retimer aria2-refresh-slow :slow))))))
 
 (defun aria2--stop-timer ()
     "Stop timer if any."
