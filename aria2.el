@@ -35,6 +35,7 @@
 (require 'url)
 (require 'subr-x)
 (require 'tabulated-list)
+(require 'wid-edit)
 
 (unless (fboundp 'alist-get)
   (defun alist-get (key alist &optional default remove)
@@ -100,7 +101,8 @@ If nil Emacs will reattach itself to the process on entering downloads list."
   :group 'aria2)
 
 (defcustom aria2-add-evil-quirks nil
-  "If t adds aria2-mode to emacs states, and binds \C-w.")
+  "If t adds aria2-mode to states, and binds \\<C-w>."
+  :type 'boolean)
 
 (defvar aria2--debug nil
   "Should json commands and replies be printed.")
@@ -162,6 +164,7 @@ If nil Emacs will reattach itself to the process on entering downloads list."
 ;;; Utils start here.
 
 (defsubst aria2--url ()
+  "Define aria2 RPC server struct."
   (format "http://localhost:%d/jsonrpc" aria2-rcp-listen-port))
 
 (defun aria2--base64-encode-file (path)
@@ -174,7 +177,7 @@ If nil Emacs will reattach itself to the process on entering downloads list."
       (kill-buffer))))
 
 (defun aria2--is-aria-process-p (pid)
-  "Returns t if `process-attributes' of PID belongs to aria."
+  "Return t if `process-attributes' of PID belongs to aria."
   (let ((proc-attr (process-attributes pid)))
     (and
      (string= "aria2c" (alist-get 'comm proc-attr))
@@ -226,6 +229,7 @@ If nil Emacs will reattach itself to the process on entering downloads list."
   "Mapping of aria2 error codes to error messages.")
 
 (defsubst aria2--decode-error (err)
+  "Define aria2 decode error struct"
   (or (cdr-safe (assoc-string err aria2--codes-to-errors-alist nil))
       "Unknown/other error"))
 
